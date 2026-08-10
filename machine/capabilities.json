@@ -1,0 +1,12 @@
+{
+  "schema": "glaciereq.repo-capabilities.v1",
+  "repository": "GlacierEQ/mistral-open-weight-eval-fence",
+  "capabilities": [
+    {
+      "id": "open-weight-eval-fence",
+      "name": "Open Weight Eval Fence",
+      "status": "SCAFFOLD",
+      "module": "src/open_weight_eval_fence.py"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "glaciereq.operability-receipt.v1",
+  "repository": "GlacierEQ/mistral-open-weight-eval-fence",
+  "at": "2026-08-10T10:11Z",
+  "source_sha": "7be25abeeb3bd9c6c61e5169fe4f6996cbf25333fcdc36c8cbd58cb7d4dfb0ee",
+  "entry": "scripts/operate.py",
+  "primary_output": {
+    "module": "open_weight_eval_fence",
+    "ok": true,
+    "repository": "GlacierEQ/mistral-open-weight-eval-fence",
+    "smoke": {
+      "args": [
+        "OpenWeightEvalFenceRequest(subject_id='s"
+      ],
+      "content_checked": true,
+      "invoked": true,
+      "kind": "class",
+      "method": "evaluate",
+      "module_local": true,
+      "name": "Mechanism",
+      "result": "OpenWeightEvalFenceReceipt(decision=<Decision.ALLOW: 'ALLOW'>, reasons=('scaffold_allow',), digest='de5a200a89430d2dec7318cf5aea51ee466c45d752e842d6d852e6bed15c045c', metrics={'scaffold': True, 'payload_keys': [], 'budget': 1.0})"
+    }
+  },
+  "dual_run_ok": true,
+  "result": "PASS"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "glaciereq.promotion-authority-grant.v1",
+  "repository": "GlacierEQ/mistral-open-weight-eval-fence",
+  "source_sha": "7be25abeeb3bd9c6c61e5169fe4f6996cbf25333fcdc36c8cbd58cb7d4dfb0ee",
+  "proof_receipt_digest": "3535d4edf3c4872bfbfd16293c3b3bca4ad32eb51ca0535b9902f8f690c37ddb",
+  "not_after": 1788948670.3218749,
+  "mac": "a04e5c7eb1a8359f6e22ac5f8699abdcdde028f8008d8c36ca631150f79db90b",
+  "issuer": "local_operator_promotion_authority",
+  "verified": true,
+  "secret_ref": "src/promotion_authority.py::LOCAL_OPERATOR_SECRET"
+}

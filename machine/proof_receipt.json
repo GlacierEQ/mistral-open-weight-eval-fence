@@ -1,0 +1,31 @@
+{
+  "schema": "glaciereq.proof-receipt.v1",
+  "repository": "GlacierEQ/mistral-open-weight-eval-fence",
+  "source_sha": "7be25abeeb3bd9c6c61e5169fe4f6996cbf25333fcdc36c8cbd58cb7d4dfb0ee",
+  "proof_id": "elite-mistral-open-weight-eval-fence-1786356670",
+  "environment": {
+    "python": "/Users/kcbflux/.local/bin/python3.11",
+    "PYTHONPATH": "/Users/kcbflux/GlacierEQ_Swarm/job-app/repos/mistral-open-weight-eval-fence:/Users/kcbflux/GlacierEQ_Swarm/job-app/repos/mistral-open-weight-eval-fence/src",
+    "entry": "unittest"
+  },
+  "tests": [
+    "/Users/kcbflux/.local/bin/python3.11 -m unittest discover -s tests -v (x2)"
+  ],
+  "adversarial_tests": [
+    "tests/test_adversarial.py"
+  ],
+  "runtime": {
+    "operate": "scripts/operate.py (x2)",
+    "dual_run_ok": true,
+    "proof_dual_run_ok": true
+  },
+  "result": "PASS",
+  "limitations": [
+    "not production deployed",
+    "reference implementation only"
+  ],
+  "timestamp": "2026-08-10T10:11Z",
+  "artifact_hashes": {
+    "operability_receipt": "a110f0f8e16d41a4a7d99e97099b4996e54d511b3fec3574bae7ebdbfc4f870a"
+  }
+}
