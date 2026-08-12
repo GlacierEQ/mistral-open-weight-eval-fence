@@ -1,106 +1,35 @@
-# DEV_UP_INSTRUCTIONS — for implementing AIs / engineers
-
-## Excellence group enrollment
-
-- **Group:** Wave C
-- **Wave id:** `WAVE-C-2026-08-10`
-- **Enrolled:** 2026-08-10T1002Z
-- **Phase:** SCAFFOLD_ENROLLED → implement mechanism → proof → promote (XOR gap)
-- **DoD:** Bodybuilder gates in `excellence/framework/PIP_TO_BODYBUILDER_PIPELINE.md`
+# DEV_UP_INSTRUCTIONS — implementation record
 
 **Repository:** `GlacierEQ/mistral-open-weight-eval-fence`  
-**Company lens (independent):** Mistral AI (`mistral`)  
-**Innovation:** Open Weight Eval Fence  
-**Scaffold batch:** 2026-08-10T0924Z
+**Independent company lens:** Mistral AI  
+**Innovation:** Open Weight Eval Fence
 
 ## Mission
 
-Implement a **real, testable** central mechanism that addresses the bottleneck below. Do **not** claim Mistral AI affiliation, proprietary access, or production deployment.
+Use finite evaluation budget to maximize failure-class coverage and block model promotion until the selected fence is completely proven.
 
-### Bottleneck
-Grounding and operating models on proprietary context across cloud and on-prem environments.
+## Implemented
 
-### Brick wall
-Preserving reliable long-horizon behavior, privacy, control, and cost efficiency across heterogeneous deployments.
+The generic scaffold has been replaced by a two-stage evaluation portfolio system.
 
-### Mechanism to implement
-Treat evals as a portfolio: maximize failure-class coverage under budget; refuse promotion without fence pass.
+`src/open_weight_eval_fence.py` now:
 
-## Hard rules (fail closed)
+- validates candidate eval identities, costs and covered failure classes;
+- selects a deterministic portfolio by new failure coverage per unit cost;
+- refuses planning when required failure classes cannot fit the budget;
+- records selected eval identities, coverage, budget consumption and plan digest;
+- verifies promotion against the exact selected plan;
+- refuses missing results, failed evals, duplicate identities and uncovered required classes;
+- emits deterministic verification and decision receipts.
 
-1. **No affiliation theater** — never state or imply Mistral AI employment, endorsement, or proprietary systems access.
-2. **No magic numbers / ANSWER=42** — all thresholds named constants with units in comments.
-3. **No import-only operate** — `scripts/operate.py` must call real methods and assert behavioral outputs.
-4. **No field-echo tests** — tests must change inputs and observe different outputs / refuse paths.
-5. **Deterministic** — pure functions preferred; time/randomness injected.
-6. **Receipts** — success and refuse paths return structured dicts with digests where useful.
-7. **PROMOTED XOR gap** — do not mark PROMOTED while `machine/gap-receipt.json` exists.
-8. Keep public surface free of secrets, private repos, and personal contact PII.
+`src/open_weight_eval_cli.py` and `scripts/operate.py` execute the planner directly. The project is packaged with the `open-weight-eval-fence` console command.
 
-## Implementation checklist
+## Verification contract
 
-### 1. Replace the stub mechanism
-File: `src/open_weight_eval_fence.py`
+Behavioral tests cover broad-vs-narrow coverage selection, insufficient budget, coverage-per-cost optimization, duplicate ids, all-pass promotion, missing results, failed evals and tampered uncovered plans. Existing adversarial coverage remains active.
 
-- Expand `OpenWeightEvalFence` into a complete, self-contained implementation.
-- Public API must stay stable enough that tests in `tests/test_open_weight_eval_fence.py` can be upgraded (not gutted).
-- Include at least:
-  - happy-path success with structured result
-  - explicit **refuse** path (invalid input, budget exceeded, expired grant, etc.)
-  - deterministic digest/fingerprint for auditability
-- Prefer stdlib-only unless a dependency is essential (then pin in `requirements.txt`).
+CI must pass tests, cold-start, wheel build/install and installed CLI execution before Helix promotion evidence can be minted.
 
-### 2. Make operate real
-File: `scripts/operate.py`
+## Truth boundary
 
-- Import the mechanism, construct inputs, call methods, print JSON receipt.
-- Exit non-zero on refuse/failure.
-- Content-check that outputs are not empty / not mere class names.
-
-### 3. Strengthen tests
-Files: `tests/test_open_weight_eval_fence.py`, `tests/test_adversarial.py`
-
-- Positive: ≥3 behavioral cases with distinct inputs → distinct outputs.
-- Negative: malformed input, expired authority, over-budget, idempotency where relevant.
-- Adversarial: attempt to smuggle affiliation claims or bypass refuse gates — must fail closed.
-
-### 4. Freeze the target contract
-File: `machine/target-contract.json`
-
-- Update `target.purpose` and `target.central_bottleneck` only if the mechanism narrows (never broadens into marketing).
-- When tests + operate pass: set `current.implemented/tested/operable` appropriately and bind proof receipt.
-
-### 5. Excellence state
-File: `machine/excellence-state.json`
-
-- Leave `DISCOVERED` until real proof exists.
-- On elevation: follow Helix promotion policy (AUTHORITY_BOUND + PROJECTION_TRUTH_CLOSED for PROMOTED).
-
-### 6. README honesty
-- Keep non-affiliation block.
-- Document exact current boundary (what works / what does not).
-
-## Suggested algorithm sketch
-
-```text
-input → validate schema → check authority/budget/freshness
-      → compute decision (allow | refuse)
-      → emit receipt {decision, reasons[], digest, metrics}
-```
-
-## Definition of done (for the filling AI)
-
-- [ ] `python -m pytest -q` passes with **real** behavioral tests (not skip-all)
-- [ ] `python scripts/operate.py` prints a JSON receipt with decision + digest
-- [ ] Refuse path covered
-- [ ] No company affiliation language outside the explicit non-affiliation disclaimer
-- [ ] `DEV_UP_INSTRUCTIONS.md` can be marked COMPLETED with date + commit in a short receipt note at bottom
-
-## Out of scope
-
-- Cloud deploy, customer pilots, proprietary Mistral AI APIs
-- Multi-repo monorepos, secret material, personal data
-- Claiming “production-ready” without operate + tests + proof receipt
-
----
-*Scaffold only. Implementation is the next agent’s job.*
+No Mistral AI affiliation, proprietary access, production deployment, customer impact, or company partnership is claimed. A provider-swappable real eval runner remains a further end-to-end depth step.
