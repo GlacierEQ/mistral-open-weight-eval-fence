@@ -1,51 +1,57 @@
 # Open Weight Eval Fence
 
-Independent GlacierEQ portfolio exhibit aligned to **Mistral AI** operating themes.
+Independent GlacierEQ portfolio implementation aligned to **Mistral AI** operating themes.
 
-> **Not affiliated.** This repository is not affiliated with, endorsed by, employed by, or deployed at Mistral AI.
-> No proprietary access, production deployment, customer impact, or company partnership is claimed.
+> **Not affiliated.** This repository is not affiliated with, endorsed by, employed by, or deployed at Mistral AI. No proprietary access, production deployment, customer impact, or company partnership is claimed.
 
-## Bottleneck (GlacierEQ hypothesis)
+## Purpose
 
-Grounding and operating models on proprietary context across cloud and on-prem environments.
+Treat evaluation as a **coverage portfolio under a finite budget**, then make promotion impossible unless the selected fence actually ran and passed.
 
-**Brick wall:** Preserving reliable long-horizon behavior, privacy, control, and cost efficiency across heterogeneous deployments.
+## Implemented fence
 
-**Observed public pressure (snapshot hypothesis):** Enterprises want sovereign, customizable models and long-running coding and agent workflows under their own control.
+`OpenWeightEvalFence` has two phases.
 
-## Innovation mechanism
+### Plan
 
-**Open Weight Eval Fence** — Treat evals as a portfolio: maximize failure-class coverage under budget; refuse promotion without fence pass.
+Given candidate evaluations, their execution cost, and the failure classes each covers, the planner selects a deterministic portfolio that maximizes new failure-class coverage per cost while staying inside the declared budget. Required failure classes are explicit. If the available budget cannot cover them, planning fails closed.
 
-## Target roles
+### Promote
 
-- Applied AI Systems Architect
-- Forward-Deployed Engineer
-- AI Infrastructure / Governance Engineer
+The promotion fence consumes the exact selected plan and executed results. Promotion is refused when:
 
-## Application move
+- a required failure class was never covered;
+- a selected evaluation result is missing;
+- any selected evaluation failed;
+- identities are duplicated or malformed.
 
-Demonstrate a provider-swappable enterprise research agent with identical receipts.
+The plan and verification each carry deterministic digests.
 
-## Current scaffold state
+## Run
 
-This leaf is a **scaffold**: contracts, tests, and a stub mechanism exist so another engineer/AI can fill production-grade code without inventing company affiliation.
+```bash
+python -m pytest -q
+python scripts/operate.py
+```
 
-| Surface | Path |
-|---------|------|
-| Mechanism stub | `src/open_weight_eval_fence.py` |
-| Operate entry | `scripts/operate.py` |
-| Contract tests | `tests/` |
-| Target contract | `machine/target-contract.json` |
-| **AI fill-in brief** | **`DEV_UP_INSTRUCTIONS.md`** |
-| Issue contract | `ISSUE_CONTRACT.md` |
+Build and install:
 
-## Non-claims
+```bash
+python -m pip install build
+python -m build
+python -m pip install dist/*.whl
+open-weight-eval-fence
+```
 
-- No Mistral AI employment, endorsement, proprietary data, or production use
-- No customer, revenue, latency, or scale claims without separate receipts
-- Scaffold tests define **intended behavior**, not verified production excellence
+## Proof surface
 
-## Next gate
+- `src/open_weight_eval_fence.py` — budgeted coverage planner + promotion verifier
+- `src/open_weight_eval_cli.py` — installable execution surface
+- `tests/test_open_weight_eval_fence.py` — coverage, budget, duplicate, missing-result and failed-eval behavior
+- `tests/test_adversarial.py` — fail-closed adversarial coverage
+- `.github/workflows/tests.yml` — tests + cold-start + wheel build/install + installed CLI
+- `machine/` — existing Helix control-plane and promotion surfaces remain preserved
 
-Test Mistral access when available and compare on-prem-like constraints with cloud providers.
+## Current boundary
+
+The mechanism consumes declared eval costs, coverage and results; it does not call Mistral AI services or claim proprietary evaluation data. The next depth step is a provider-swappable eval runner that produces these result receipts from permitted cloud/on-prem model endpoints while keeping the same fence contract.
