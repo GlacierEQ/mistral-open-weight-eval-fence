@@ -4,12 +4,12 @@
   "source_sha": "7be25abeeb3bd9c6c61e5169fe4f6996cbf25333fcdc36c8cbd58cb7d4dfb0ee",
   "proof_id": "elite-mistral-open-weight-eval-fence-1786356670",
   "environment": {
-    "python": "/Users/kcbflux/.local/bin/python3.11",
-    "PYTHONPATH": "/Users/kcbflux/GlacierEQ_Swarm/job-app/repos/mistral-open-weight-eval-fence:/Users/kcbflux/GlacierEQ_Swarm/job-app/repos/mistral-open-weight-eval-fence/src",
+    "python": "${HOME}/.local/bin/python3.11",
+    "PYTHONPATH": "${HOME}/GlacierEQ_Swarm/job-app/repos/mistral-open-weight-eval-fence:${HOME}/GlacierEQ_Swarm/job-app/repos/mistral-open-weight-eval-fence/src",
     "entry": "unittest"
   },
   "tests": [
-    "/Users/kcbflux/.local/bin/python3.11 -m unittest discover -s tests -v (x2)"
+    "${HOME}/.local/bin/python3.11 -m unittest discover -s tests -v (x2)"
   ],
   "adversarial_tests": [
     "tests/test_adversarial.py"
